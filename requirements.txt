@@ -1,0 +1,13 @@
+torch==2.5.1
+transformers==4.44.2
+datasets
+accelerate
+sentence_transformers
+peft
+ir-datasets
+sentencepiece
+protobuf
+deepspeed==0.16.4
+numpy==1.26.0
+rank_bm25
+beir
