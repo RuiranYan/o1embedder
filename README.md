@@ -6,7 +6,6 @@ O1 Embedder is a **reasoning-enhanced dense retriever** that mimics the step-by-
 
 It is the **first retrieval model that integrates long-form thought generation and discriminative embedding** in a unified framework — enabling high performance on both in-domain and out-of-distribution (OOD) information retrieval benchmarks.
 
-
 ## ✨ Key Features
 
 - **🧠 Thought-Augmented Retrieval**: Generates LLM-style "thoughts" before embedding the query to uncover hidden semantic intents.
@@ -31,27 +30,30 @@ pip install https://github.com/kyamagu/faiss-wheels/releases/download/v1.7.3/fai
 ```
 
 ### 3. Download Datasets
+
 ```bash
 huggingface-cli download --repo-type dataset --resume-download Ruiran/msmarco_thought final.jsonl --local-dir dataset --local-dir-use-symlinks False
 ```
 
-### (Optional) Prepare Your Own Training Data 
+### (Optional) Prepare Your Own Training Data
 
 You can build your own thought-augmented dataset via:
 
 1. Start the vLLM server:
-```bash
-bash ./scripts/vllm.sh
-```
+   
+   ```bash
+   bash ./scripts/vllm.sh
+   ```
 2. Open another terminal and access the vLLM server:
-```bash
-bash ./scripts/gen_data.sh
-```
+   
+   ```bash
+   bash ./scripts/gen_data.sh
+   ```
 3. Vote and get the best thought:
-```bash
-python ./data_preparation/vote.py --input_file "./dataset/toy_thought.jsonl" --output_file "./dataset/toy_vote_res.jsonl" --model_zoo '["BAAI/bge-large-en-v1.5", "dunzhang/stella_en_1.5B_v5", "Alibaba-NLP/gte-large-en-v1.5"]'
-```
-
+   
+   ```bash
+   python ./data_preparation/vote.py --input_file "./dataset/toy_thought.jsonl" --output_file "./dataset/toy_vote_res.jsonl" --model_zoo '["BAAI/bge-large-en-v1.5", "dunzhang/stella_en_1.5B_v5", "Alibaba-NLP/gte-large-en-v1.5"]'
+   ```
 
 ### 4. Train O1 Embedder
 
@@ -68,23 +70,29 @@ bash scripts/eval.sh
 ## 🧠 Core Ideas
 
 ### 🧪 1. Thought Generation via LLM
+
 Use a strong LLM (e.g., LLaMA-3) to generate long-form "thoughts" before retrieval.
 
 ### 🧪 2. Retrieval Committee
+
 Evaluate thought quality via a diverse set of retrievers and select via majority voting.
 
 ### 🧪 3. Joint Learning
+
 - **Behavior Cloning**: teaches the model to generate thoughts.
 - **Contrastive Learning**: aligns query-thought pairs with relevant documents.
 
-
 ## 🤖 Supported Backbones
 
-| Backbone     | Model Sizes | Supported |
-|--------------|-------------|-----------|
-| LLaMA        | 7B, 8B       | ✅        |
-| Mistral      | 7B           | ✅        |
-| Qwen2.5      | 0.5B–7B      | ✅        |
+| Backbone | Model Sizes | Supported |
+| -------- | ----------- | --------- |
+| LLaMA    | 7B, 8B      | ✅         |
+| Mistral  | 7B          | ✅         |
+| Qwen2.5  | 0.5B–7B     | ✅         |
+
+## 🏆 Acknowledgements
+
+We thank [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding) for providing the open-source framework, and [XiongWenXww](https://github.com/XiongWenXww) for her key contributions to the data preparation process.
 
 ## 📝 Citation
 
