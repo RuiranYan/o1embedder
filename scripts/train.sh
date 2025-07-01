@@ -1,5 +1,5 @@
 exp_name="qwen2.5_7b_all"
-base_model="models/Qwen/Qwen2.5-7B"
+base_model="Qwen/Qwen2.5-7B"
 
 # ############################### Train ################################
 

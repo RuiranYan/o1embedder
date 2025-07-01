@@ -19,7 +19,7 @@ It is the **first retrieval model that integrates long-form thought generation a
 ### 1. Clone this repo
 
 ```bash
-git clone https://github.com/your-org/O1-Embedder.git
+git clone https://github.com/RuiranYan/o1embedder.git
 cd O1-Embedder
 ```
 

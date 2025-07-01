@@ -1,5 +1,5 @@
 exp_name="qwen2.5_7b_all"
-base_model="models/Qwen/Qwen2.5-7B"
+base_model="Qwen/Qwen2.5-7B"
 
 # ############################### Eval BEIR ################################
 
@@ -14,8 +14,7 @@ eval_output_path="./beir/$exp_name/beir_eval_results.md"
 
 
 if [ -z "$HF_HUB_CACHE" ]; then
-    # export HF_HUB_CACHE="~/.cache/huggingface/hub"
-    export HF_HUB_CACHE="/share/shitao/wyz/yrr/models/huggingface/hub"
+    export HF_HUB_CACHE="~/.cache/huggingface/hub"
 fi
 
 
@@ -57,7 +56,8 @@ eval $cmd
 
 dataset_names="passage"
 
-model_name_or_path="./checkpoints/$exp_name/merged_model"
+# model_name_or_path="./checkpoints/$exp_name/merged_model"
+model_name_or_path="Ruiran/o1embedder"
 
 corpus_embd_save_dir="./msmarco/$exp_name/corpus_embd"
 output_dir="./msmarco/$exp_name/search_results"
@@ -96,5 +96,5 @@ cmd="python -m FlagEmbedding.evaluation.msmarco \
     $model_args \
 "
 
-# echo $cmd
-# eval $cmd
+echo $cmd
+eval $cmd
