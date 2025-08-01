@@ -55,7 +55,7 @@ class MTEBEvalRunner(AbsEvalRunner):
                 if os.path.exists(os.path.join(output_folder, task_name + '.json')):
                     data = json.load(open(os.path.join(output_folder, task_name + '.json')))
                     tasks_results[t_type][task_name] = {}
-                    for s in ['test', 'dev', 'validation']:
+                    for s in ['test', 'dev', 'validation', 'standard']:
                         if s in data['scores']:
                             split = s
                             break
@@ -171,7 +171,6 @@ class MTEBEvalRunner(AbsEvalRunner):
             batch_size=model_args.embedder_batch_size,
             query_max_length=model_args.embedder_query_max_length,
             passage_max_length=model_args.embedder_passage_max_length,
-            q2r_dic_path=model_args.q2r_dic_path,
             last_with_query=model_args.last_with_query,
             n_ans=model_args.n_ans,
         )

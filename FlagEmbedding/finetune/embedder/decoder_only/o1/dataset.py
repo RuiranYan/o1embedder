@@ -119,7 +119,10 @@ class DecoderOnlyEmbedderO1SameDatasetTrainDataset(AbsEmbedderSameDatasetTrainDa
 
 
                 if "thought" in batch_raw_data and batch_raw_data['thought'][i] != "":
-                    thought.append(batch_raw_data['thought'][i] + self.tokenizer.eos_token)
+                    if random.random() < 0.9:
+                        thought.append(batch_raw_data['thought'][i] + self.tokenizer.eos_token)
+                    else:
+                        thought.append("")
                 else:
                     thought.append("")
 

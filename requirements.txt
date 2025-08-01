@@ -1,6 +1,6 @@
 torch==2.5.1
 transformers==4.44.2
-datasets
+datasets==2.19.0
 accelerate
 sentence_transformers
 peft
@@ -11,3 +11,4 @@ deepspeed==0.16.4
 numpy==1.26.0
 rank_bm25
 beir
+mteb==1.15.0

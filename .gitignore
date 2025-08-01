@@ -1,0 +1,8 @@
+data/
+tmp/
+checkpoints/
+beir/
+msmarco/
+__pycache__/
+mteb/
+.cache/

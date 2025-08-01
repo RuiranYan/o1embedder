@@ -83,6 +83,9 @@ class O1LLMEmbedder(AbsEmbedder):
                     print("reset embedding")
                 self.model = PeftModel.from_pretrained(self.model, model_name_or_path, is_trainable=False)
                 self.model = self.model.merge_and_unload() 
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+                self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
+                print(111)
             elif config.task_type == "CAUSAL_LM":
                 print("lora task type: causal lm")
                 self.model = AutoModelForCausalLM.from_pretrained(config.base_model_name_or_path, trust_remote_code=trust_remote_code, cache_dir=cache_dir)
@@ -143,7 +146,7 @@ class O1LLMEmbedder(AbsEmbedder):
         for start_idx in tqdm(range(0, total, batch_size), desc="generate thought"):
             batch_queries = queries[start_idx:start_idx + batch_size]
             batch_prompts = [TEMPLATE_SPECIAL.format(query=q) for q in batch_queries]
-            input_text = self.tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True, max_length=72).to(device)
+            input_text = self.tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True, max_length=256).to(device)
             outputs = self.model_lm.generate(
                 **input_text,
                 max_new_tokens=128,
@@ -181,14 +184,8 @@ class O1LLMEmbedder(AbsEmbedder):
         **kwargs: Any
     ) -> Union[np.ndarray, torch.Tensor]:
         
-
         print(queries[0])
-
-        # generate
-        # queries = self.generate_thought_multiprocess(queries, self.n_ans)
         kwargs['is_query'] = True
-
-
         return super().encode_queries(
             queries,
             batch_size=batch_size,
@@ -269,6 +266,11 @@ class O1LLMEmbedder(AbsEmbedder):
 
             # flatten
             sentences = [item for sublist in sentences for item in sublist]
+            # # for noT
+            # TEMPLATE_SPECIAL = "<query>{query}</query><thought>"
+            # sentences = [TEMPLATE_SPECIAL.format(query=q) + self.tokenizer.eos_token for q in sentences]
+            # self.n_ans = 1
+            # print(sentences[0])
 
         # hack
         if hasattr(self.tokenizer, 'add_eos_token'):
@@ -276,6 +278,7 @@ class O1LLMEmbedder(AbsEmbedder):
         # hack test
         assert self.tokenizer('a')['input_ids'][-1] != self.tokenizer.eos_token_id
         emb_token_id = self.tokenizer.convert_tokens_to_ids('<emb>')
+        # emb_token_id = self.tokenizer.convert_tokens_to_ids('</s>')
 
         # tokenize without padding to get the correct length
         all_inputs = []

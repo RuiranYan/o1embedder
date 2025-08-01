@@ -3,7 +3,7 @@ from FlagEmbedding.abc.evaluation import AbsEvalRunner
 from .data_loader import MSMARCOEvalDataLoader
 from .arguments import MSMARCOEvalArgs, MSMARCOEvalModelArgs
 # from .modeling_o1embedder import O1LLMEmbedder
-from .repllama import RepllamaLLMEmbedder
+# from .repllama import RepllamaLLMEmbedder
 from FlagEmbedding.inference.embedder.decoder_only.base import BaseLLMEmbedder
 from FlagEmbedding.inference.embedder.decoder_only.modeling_o1embedder import O1LLMEmbedder
 
@@ -47,7 +47,6 @@ class MSMARCOEvalRunner(AbsEvalRunner):
             batch_size=model_args.embedder_batch_size,
             query_max_length=model_args.embedder_query_max_length,
             passage_max_length=model_args.embedder_passage_max_length,
-            q2r_dic_path=model_args.q2r_dic_path,
             last_with_query=model_args.last_with_query,
             n_ans=model_args.n_ans,
         )
