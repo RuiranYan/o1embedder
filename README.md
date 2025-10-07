@@ -8,10 +8,15 @@ O1 Embedder is a **reasoning-enhanced dense retriever** that mimics the step-by-
 
 It is the **first retrieval model that integrates long-form thought generation and discriminative embedding** in a unified framework — enabling high performance on both in-domain and out-of-distribution (OOD) information retrieval benchmarks.
 
-<embed src="./images/O1embedder.pdf" type="application/pdf" width="100%" height="600">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="./images/O1embedder.png" height="150" alt="O1embedder">
+  <img src="./images/train_inference.png" height="200" alt="train_inference">
+</div>
 
+## 🏭 Data Production
+The training of O1 Embedder involves two types of data. One is used for the embedding capability, which is made up of queries and their relevant documents, i.e., q-doc tuples. The other one is used for the thinking capability, which includes queries and their thoughts, i.e., q-thought tuples. Unlike q-doc tuples which have been widely existed, there are no available q-thought tuples in reality. To resolve this problem, we propose a data synthesis pipeline, leveraging LLMs’ readily equipped reasoning capacity to generate such datasets.
 <p align="center">
-<img src="./images/O1embedder.pdf" height = "200" alt="" align=center />
+<img src="./figures/data_produce.png" height = "200" alt="" align=center />
 </p>
 
 ## ✨ Key Features
