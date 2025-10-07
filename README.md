@@ -16,7 +16,7 @@ It is the **first retrieval model that integrates long-form thought generation a
 ## 🏭 Data Production
 The training of O1 Embedder involves two types of data. One is used for the embedding capability, which is made up of queries and their relevant documents, i.e., q-doc tuples. The other one is used for the thinking capability, which includes queries and their thoughts, i.e., q-thought tuples. Unlike q-doc tuples which have been widely existed, there are no available q-thought tuples in reality. To resolve this problem, we propose a data synthesis pipeline, leveraging LLMs’ readily equipped reasoning capacity to generate such datasets.
 <p align="center">
-<img src="./figures/data_produce.png" height = "200" alt="" align=center />
+<img src="./images/data_produce.png" height = "200" alt="" align=center />
 </p>
 
 ## ✨ Key Features
