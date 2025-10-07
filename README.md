@@ -1,10 +1,18 @@
 # 🧠 O1 Embedder: Enhanced Retrieval Model with Thinking Capabilities
 
+**[<a href="https://arxiv.org/pdf/2502.07555">Paper Page</a>]**
+
 ## 🔍 Overview
 
 O1 Embedder is a **reasoning-enhanced dense retriever** that mimics the step-by-step thinking behavior of Large Language Models (LLMs) to solve complex and zero-shot retrieval tasks.
 
 It is the **first retrieval model that integrates long-form thought generation and discriminative embedding** in a unified framework — enabling high performance on both in-domain and out-of-distribution (OOD) information retrieval benchmarks.
+
+<embed src="./images/O1embedder.pdf" type="application/pdf" width="100%" height="600">
+
+<p align="center">
+<img src="./images/O1embedder.pdf" height = "200" alt="" align=center />
+</p>
 
 ## ✨ Key Features
 
