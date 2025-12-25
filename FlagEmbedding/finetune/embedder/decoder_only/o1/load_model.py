@@ -49,7 +49,7 @@ def get_model(model_args: DecoderOnlyEmbedderO1ModelArguments, output_dir: str, 
     if model_args.model_name_or_path:
         model = AutoModelForCausalLM.from_pretrained(
             model_args.model_name_or_path,
-            # torch_dtype=torch.bfloat16,
+            torch_dtype=torch.bfloat16,
             use_flash_attention_2=True if model_args.use_flash_attn else False,
             token=model_args.token,
             cache_dir=model_args.cache_dir,
@@ -69,8 +69,9 @@ def get_model(model_args: DecoderOnlyEmbedderO1ModelArguments, output_dir: str, 
     if resize:
         model.resize_token_embeddings(resize_tokens)
         os.makedirs(os.path.join(output_dir, 'embedding'), exist_ok=True)
-        torch.save(model.model.embed_tokens, os.path.join(output_dir, 'embedding', 'emb.pth'))
-        torch.save(model.lm_head, os.path.join(output_dir, 'embedding', 'lm_head.pth'))
+        if int(os.environ.get("RANK", "0")) == 0:
+            torch.save(model.model.embed_tokens, os.path.join(output_dir, 'embedding', 'emb.pth'))
+            torch.save(model.lm_head, os.path.join(output_dir, 'embedding', 'lm_head.pth'))
         target_modules = model_args.target_modules
     else:
         target_modules = model_args.target_modules
@@ -81,8 +82,10 @@ def get_model(model_args: DecoderOnlyEmbedderO1ModelArguments, output_dir: str, 
         if os.path.exists(os.path.join(model_args.from_peft, 'embedding')):
             model.set_input_embeddings(torch.load(os.path.join(model_args.from_peft, 'embedding', 'emb.pth')))
             model.set_output_embeddings(torch.load(os.path.join(model_args.from_peft, 'embedding', 'lm_head.pth')))
-            torch.save(model.model.embed_tokens, os.path.join(output_dir, 'embedding', 'emb.pth'))
-            torch.save(model.lm_head, os.path.join(output_dir, 'embedding', 'lm_head.pth'))
+            if int(os.environ.get("RANK", "0")) == 0:
+                os.makedirs(os.path.join(output_dir, 'embedding'), exist_ok=True)
+                torch.save(model.model.embed_tokens, os.path.join(output_dir, 'embedding', 'emb.pth'))
+                torch.save(model.lm_head, os.path.join(output_dir, 'embedding', 'lm_head.pth'))
         model = PeftModelForCausalLM.from_pretrained(model, model_args.from_peft, is_trainable=True)
         model.print_trainable_parameters()
     else:
@@ -152,8 +155,9 @@ def save_merged_model(model_args: DecoderOnlyEmbedderO1ModelArguments, output_di
         model = model.merge_and_unload()
 
     tokenizer = AutoTokenizer.from_pretrained(output_dir)
-    tokenizer.save_pretrained(os.path.join(output_dir, 'merged_model'))
-    model.config.vocab_size = model.model.embed_tokens.weight.shape[0]
-    model.save_pretrained(os.path.join(output_dir, 'merged_model'))
+    if int(os.environ.get("RANK", "0")) == 0:
+        tokenizer.save_pretrained(os.path.join(output_dir, 'merged_model'))
+        model.config.vocab_size = model.model.embed_tokens.weight.shape[0]
+        model.save_pretrained(os.path.join(output_dir, 'merged_model'))
 
     

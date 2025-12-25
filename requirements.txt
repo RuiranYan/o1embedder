@@ -3,7 +3,7 @@ transformers==4.44.2
 datasets==2.19.0
 accelerate
 sentence_transformers
-peft
+peft==0.17.1
 ir-datasets
 sentencepiece
 protobuf
