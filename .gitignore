@@ -6,3 +6,4 @@ msmarco/
 __pycache__/
 mteb/
 .cache/
+dataset/
