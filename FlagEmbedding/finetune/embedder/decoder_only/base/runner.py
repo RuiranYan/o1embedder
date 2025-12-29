@@ -1,6 +1,7 @@
 import logging
 from typing import Tuple
 from pathlib import Path
+import torch.distributed as dist
 from transformers import AutoConfig, AutoTokenizer, PreTrainedTokenizer
 
 from FlagEmbedding.abc.finetune.embedder.AbsArguments import AbsEmbedderDataArguments, AbsEmbedderTrainingArguments
@@ -104,3 +105,6 @@ class DecoderOnlyEmbedderRunner(AbsEmbedderRunner):
         # save merged model
         if self.model_args.save_merged_lora_model and self.training_args.process_index == 0:
             save_merged_model(self.model_args, self.training_args.output_dir)
+        
+        if dist.is_initialized():
+            dist.barrier()
