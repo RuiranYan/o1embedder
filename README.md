@@ -1,6 +1,6 @@
-# 🧠 O1 Embedder: Enhanced Retrieval Model with Thinking Capabilities
+# 🧠 （ACL 2026）O1 Embedder: Enhanced Retrieval Model with Thinking Capabilities
 
-**[<a href="https://arxiv.org/pdf/2502.07555">Paper Page</a>]**
+**[<a href="https://aclanthology.org/2026.findings-acl.1603.pdf">Paper Page</a>]**
 
 ## 🔍 Overview
 
